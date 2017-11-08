@@ -8,21 +8,21 @@ RUN apt-get clean \
 ARG HOST_GID
 ARG HOST_UID
 
-RUN useradd --system --uid $HOST_UID --gid $HOST_GID -m --shell /usr/sbin/nologin qbittorrent \
+RUN useradd --system --uid $HOST_UID -m --shell /usr/sbin/nologin qbittorrent \
     && mkdir -p /home/qbittorrent/.config/qBittorrent \
     && ln -s /home/qbittorrent/.config/qBittorrent /config \
     && mkdir -p /home/qbittorrent/.local/share/data/qBittorrent \
     && ln -s /home/qbittorrent/.local/share/data/qBittorrent /torrents \
-    && chown -R qbittorrent:$HOST_GID /home/qbittorrent/ \
+    && chown -R qbittorrent:qbittorrent /home/qbittorrent/ \
     && mkdir /downloads \
-    && chown qbittorrent:$HOST_GID /downloads
+    && chown qbittorrent:qbittorrent /downloads
 
 # Default configuration file.
 COPY qBittorrent.conf /default/qBittorrent.conf
 COPY entrypoint.sh /
 
-RUN chown qbittorrent:$HOST_GID /default/qBittorrent.conf
-RUN chown qbittorrent:$HOST_GID /entrypoint.sh
+RUN chown qbittorrent:qbittorrent /default/qBittorrent.conf
+RUN chown qbittorrent:qbittorrent /entrypoint.sh
 
 VOLUME /config
 VOLUME /torrents
