@@ -71,7 +71,7 @@ RUN set -x \
  && rm -rf /tmp/* \
 
     # Add non-root user
- && groupadd -f -g 520 qbittorrent
+ && groupadd -f -g 520 qbittorrent \
  && adduser -S -D -u 520 -g 520 -s /sbin/nologin qbittorrent \
 
     # Create symbolic links to simplify mounting
