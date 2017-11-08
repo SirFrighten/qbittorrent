@@ -8,7 +8,7 @@ RUN apt-get clean \
 ARG HOST_GID
 ARG HOST_UID
 
-RUN useradd --system --uid $HOST_UID -m --shell /usr/sbin/nologin qbittorrent \
+RUN useradd --system -u $HOST_UID -g $HOST_GID -m --shell /usr/sbin/nologin qbittorrent \
     && mkdir -p /home/qbittorrent/.config/qBittorrent \
     && ln -s /home/qbittorrent/.config/qBittorrent /config \
     && mkdir -p /home/qbittorrent/.local/share/data/qBittorrent \
