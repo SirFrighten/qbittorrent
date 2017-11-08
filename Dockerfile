@@ -8,14 +8,18 @@ RUN apt-get clean \
 ARG UID=1982
 ARG GID=1982
 
-RUN useradd --system -u $UID -g $GID -m --shell /usr/sbin/nologin qbittorrent \
+ARG HOST_UID=$(stat -c %u docker-compose.yml)
+ARG HOST_GID=$(stat -c %g docker-compose.yml)
+
+RUN groupadd -f -g $HOST_GID qbittorrent
+RUN useradd --system -u $HOST_UID -g $HOST_GID -m --shell /usr/sbin/nologin qbittorrent \
     && mkdir -p /home/qbittorrent/.config/qBittorrent \
     && ln -s /home/qbittorrent/.config/qBittorrent /config \
     && mkdir -p /home/qbittorrent/.local/share/data/qBittorrent \
     && ln -s /home/qbittorrent/.local/share/data/qBittorrent /torrents \
-    && chown -R qbittorrent:$GID /home/qbittorrent/ \
+    && chown -R qbittorrent:$HOST_GID /home/qbittorrent/ \
     && mkdir /downloads \
-    && chown qbittorrent:$GID /downloads
+    && chown qbittorrent:$HOST_GID /downloads
 
 # Default configuration file.
 COPY qBittorrent.conf /default/qBittorrent.conf
