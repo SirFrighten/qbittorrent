@@ -5,8 +5,8 @@ RUN apt-get install -y qbittorrent-nox
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ARG HOST_GID
-ARG HOST_UID
+ARG HOST_GID=1000
+ARG HOST_UID=1000
 
 RUN useradd --system -u \$HOST_UID -g \$HOST_GID -m --shell /usr/sbin/nologin qbittorrent \
     && mkdir -p /home/qbittorrent/.config/qBittorrent \
